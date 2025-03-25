@@ -66,7 +66,7 @@ BEGIN
         FROM (
             SELECT *, ROW_NUMBER() OVER (PARTITION BY cst_id ORDER BY cst_create_date DESC) AS flag_last
             FROM bronze.crm_cust_info
-        ) t WHERE flag_last = 1;
+        ) t WHERE flag_last = 1 AND cst_id IS NOT NULL;
         SET @end_time = GETDATE();
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> ---------';
